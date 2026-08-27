@@ -9,8 +9,9 @@ function clamp(value: number, min: number, max: number) {
 export default function PuntoPngScene() {
   const introRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLDivElement>(null);
-  const personRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLImageElement>(null);
+  const personRef = useRef<HTMLImageElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -26,19 +27,24 @@ export default function PuntoPngScene() {
         introRef.current.style.transform = `translate(-50%, calc(-50% - ${p * 40}px)) scale(${1 - p * 0.08})`;
       }
 
-      if (trackRef.current && logoRef.current && personRef.current) {
-        const rect = trackRef.current.getBoundingClientRect();
-        const total = rect.height - vh;
-        const progress = total > 0 ? clamp(-rect.top / total, 0, 1) : 0;
+      if (trackRef.current && stageRef.current && logoRef.current && personRef.current) {
+        const trackRect = trackRef.current.getBoundingClientRect();
+        const total = trackRect.height - vh;
+        const progress = total > 0 ? clamp(-trackRect.top / total, 0, 1) : 0;
 
-        const dx = progress * rect.width * 0.16;
-        const dy = progress * vh * 0.22;
+        // logo.png and person.png are both full 1920x1080 layers from the same
+        // composition, so they share one coordinate space: moving the whole
+        // layer keeps the logo and photo aligned exactly as they were designed.
+        const stageRect = stageRef.current.getBoundingClientRect();
+
+        const dx = progress * stageRect.width * 0.16;
+        const dy = progress * stageRect.height * 0.3;
         const logoScale = 1 - progress * 0.05;
-        logoRef.current.style.transform = `translate(-50%, -50%) translate3d(${dx}px, ${dy}px, 0) scale(${logoScale})`;
+        logoRef.current.style.transform = `translate3d(${dx}px, ${dy}px, 0) scale(${logoScale})`;
 
-        const personY = progress * vh * -0.03;
-        const personScale = 1 + progress * 0.03;
-        personRef.current.style.transform = `translate(-50%, -50%) translate3d(0, ${personY}px, 0) scale(${personScale})`;
+        const personY = progress * stageRect.height * -0.02;
+        const personScale = 1 + progress * 0.02;
+        personRef.current.style.transform = `translate3d(0, ${personY}px, 0) scale(${personScale})`;
 
         if (glowRef.current) {
           glowRef.current.style.opacity = String(0.35 + progress * 0.45);
@@ -93,31 +99,30 @@ export default function PuntoPngScene() {
             }}
           />
 
-          <div className="relative mx-auto h-full w-full max-w-[1800px]">
+          <div className="flex h-full w-full items-center justify-center px-4">
             <div
-              ref={logoRef}
-              className="absolute left-1/2 top-[30%] z-10 w-[46%] max-w-2xl will-change-transform"
-              style={{ transform: "translate(-50%, -50%)" }}
+              ref={stageRef}
+              className="relative"
+              style={{
+                width: "min(1800px, 100%, calc(100vh * 16 / 9))",
+                aspectRatio: "1920 / 1080",
+              }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
+                ref={logoRef}
                 src="/puntopng/logo.png"
                 alt="puntopng"
-                className="w-full select-none"
+                className="absolute inset-0 z-10 h-full w-full select-none object-contain will-change-transform"
                 draggable={false}
               />
-            </div>
 
-            <div
-              ref={personRef}
-              className="absolute left-1/2 top-[64%] z-20 w-[22%] max-w-sm will-change-transform"
-              style={{ transform: "translate(-50%, -50%)" }}
-            >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
+                ref={personRef}
                 src="/puntopng/person.png"
                 alt="Fundador de puntopng"
-                className="w-full select-none"
+                className="absolute inset-0 z-20 h-full w-full select-none object-contain will-change-transform"
                 draggable={false}
               />
             </div>
