@@ -43,8 +43,8 @@ export default function PuntoPngScene() {
         introRef.current.style.opacity = String(1 - p);
         introRef.current.style.transform = `translate(-50%, calc(-50% - ${p * 40}px)) scale(${1 - p * 0.08})`;
 
-        const gx = 28 - p * 20;
-        const gy = 35 - p * 25;
+        const gx = 12 + p * 76;
+        const gy = 18 + p * 64;
         bgRef.current.style.background = `radial-gradient(circle at ${gx}% ${gy}%, #1c3d2c 0%, #0a0f0c 55%, #000000 100%)`;
       }
 
@@ -126,7 +126,7 @@ export default function PuntoPngScene() {
         className="fixed inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(circle at 28% 35%, #1c3d2c 0%, #0a0f0c 55%, #000000 100%)",
+            "radial-gradient(circle at 12% 18%, #1c3d2c 0%, #0a0f0c 55%, #000000 100%)",
         }}
       />
 
@@ -169,7 +169,10 @@ export default function PuntoPngScene() {
         </div>
       </div>
 
-      <section className="relative z-10 flex h-screen items-center justify-center overflow-hidden">
+      <section
+        id="inicio"
+        className="relative z-10 flex h-screen items-center justify-center overflow-hidden"
+      >
         <div
           ref={introRef}
           className="absolute left-1/2 top-1/2 w-full max-w-3xl px-6 text-center will-change-transform"
@@ -229,6 +232,30 @@ export default function PuntoPngScene() {
             </div>
           </div>
         </div>
+      </section>
+
+      <section
+        id="sobre-mi"
+        className="relative z-10 mx-auto max-w-2xl px-6 py-32 text-center scroll-mt-24"
+      >
+        <h2 className="text-3xl font-semibold tracking-tight text-white">Sobre mí</h2>
+        <p className="mt-4 text-white/60">Contenido próximamente.</p>
+      </section>
+
+      <section
+        id="servicios"
+        className="relative z-10 mx-auto max-w-2xl px-6 py-32 text-center scroll-mt-24"
+      >
+        <h2 className="text-3xl font-semibold tracking-tight text-white">Servicios</h2>
+        <p className="mt-4 text-white/60">Contenido próximamente.</p>
+      </section>
+
+      <section
+        id="contacto"
+        className="relative z-10 mx-auto max-w-2xl px-6 py-32 text-center scroll-mt-24"
+      >
+        <h2 className="text-3xl font-semibold tracking-tight text-white">Contacto</h2>
+        <p className="mt-4 text-white/60">Contenido próximamente.</p>
       </section>
     </main>
   );
