@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ClipGen — Clips virales con IA",
-  description: "Sube un video largo y obtén clips cortos listos para redes sociales.",
+  title: "puntopng — Ponle punto y inicio",
+  description: "Ponle punto y inicio.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
